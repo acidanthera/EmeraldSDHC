@@ -1,0 +1,9 @@
+.DS_Store
+DerivedData
+xcuserdata
+project.xcworkspace
+build
+xcshareddata
+Lilu.kext
+/MacKernelSDK
+/clang32

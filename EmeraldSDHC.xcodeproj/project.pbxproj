@@ -1,0 +1,409 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		419F03662954BD6C00649F83 /* EmeraldSDHC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 419F03652954BD6C00649F83 /* EmeraldSDHC.hpp */; };
+		419F03682954BD6C00649F83 /* EmeraldSDHC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419F03672954BD6C00649F83 /* EmeraldSDHC.cpp */; };
+		419F037529553A2400649F83 /* EmeraldSDHCSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419F037329553A2400649F83 /* EmeraldSDHCSlot.cpp */; };
+		419F037629553A2400649F83 /* EmeraldSDHCSlot.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 419F037429553A2400649F83 /* EmeraldSDHCSlot.hpp */; };
+		419F037929556F5000649F83 /* EmeraldSDHCBlockStorageDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419F037729556F5000649F83 /* EmeraldSDHCBlockStorageDevice.cpp */; };
+		419F037A29556F5000649F83 /* EmeraldSDHCBlockStorageDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 419F037829556F5000649F83 /* EmeraldSDHCBlockStorageDevice.hpp */; };
+		419F037C295607F900649F83 /* EmeraldSDHCBlockStorageDevicePrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419F037B295607F900649F83 /* EmeraldSDHCBlockStorageDevicePrivate.cpp */; };
+		419F037E29560E4700649F83 /* EmeraldSDHCBlockStorageDeviceCard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419F037D29560E4700649F83 /* EmeraldSDHCBlockStorageDeviceCard.cpp */; };
+		419F03802956103200649F83 /* EmeraldSDHCBlockStorageDeviceCommands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419F037F2956103200649F83 /* EmeraldSDHCBlockStorageDeviceCommands.cpp */; };
+		419F0383295A904400649F83 /* EmeraldSDHCCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419F0381295A904400649F83 /* EmeraldSDHCCommand.cpp */; };
+		419F0384295A904400649F83 /* EmeraldSDHCCommand.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 419F0382295A904400649F83 /* EmeraldSDHCCommand.hpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		419F03622954BD6C00649F83 /* EmeraldSDHC.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmeraldSDHC.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		419F03652954BD6C00649F83 /* EmeraldSDHC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EmeraldSDHC.hpp; sourceTree = "<group>"; };
+		419F03672954BD6C00649F83 /* EmeraldSDHC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmeraldSDHC.cpp; sourceTree = "<group>"; };
+		419F03692954BD6C00649F83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		419F03702954C45100649F83 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		419F03712954F6E100649F83 /* SDRegs.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SDRegs.hpp; sourceTree = "<group>"; };
+		419F03722954F6EC00649F83 /* SDMisc.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SDMisc.hpp; sourceTree = "<group>"; };
+		419F037329553A2400649F83 /* EmeraldSDHCSlot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmeraldSDHCSlot.cpp; sourceTree = "<group>"; };
+		419F037429553A2400649F83 /* EmeraldSDHCSlot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EmeraldSDHCSlot.hpp; sourceTree = "<group>"; };
+		419F037729556F5000649F83 /* EmeraldSDHCBlockStorageDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmeraldSDHCBlockStorageDevice.cpp; sourceTree = "<group>"; };
+		419F037829556F5000649F83 /* EmeraldSDHCBlockStorageDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EmeraldSDHCBlockStorageDevice.hpp; sourceTree = "<group>"; };
+		419F037B295607F900649F83 /* EmeraldSDHCBlockStorageDevicePrivate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmeraldSDHCBlockStorageDevicePrivate.cpp; sourceTree = "<group>"; };
+		419F037D29560E4700649F83 /* EmeraldSDHCBlockStorageDeviceCard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmeraldSDHCBlockStorageDeviceCard.cpp; sourceTree = "<group>"; };
+		419F037F2956103200649F83 /* EmeraldSDHCBlockStorageDeviceCommands.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmeraldSDHCBlockStorageDeviceCommands.cpp; sourceTree = "<group>"; };
+		419F0381295A904400649F83 /* EmeraldSDHCCommand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmeraldSDHCCommand.cpp; sourceTree = "<group>"; };
+		419F0382295A904400649F83 /* EmeraldSDHCCommand.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EmeraldSDHCCommand.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		419F035F2954BD6C00649F83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		419F03582954BD6C00649F83 = {
+			isa = PBXGroup;
+			children = (
+				419F03642954BD6C00649F83 /* EmeraldSDHC */,
+				419F036F2954C33400649F83 /* Products */,
+				419F03702954C45100649F83 /* README.md */,
+			);
+			sourceTree = "<group>";
+		};
+		419F03642954BD6C00649F83 /* EmeraldSDHC */ = {
+			isa = PBXGroup;
+			children = (
+				419F03672954BD6C00649F83 /* EmeraldSDHC.cpp */,
+				419F03652954BD6C00649F83 /* EmeraldSDHC.hpp */,
+				419F037729556F5000649F83 /* EmeraldSDHCBlockStorageDevice.cpp */,
+				419F037829556F5000649F83 /* EmeraldSDHCBlockStorageDevice.hpp */,
+				419F037D29560E4700649F83 /* EmeraldSDHCBlockStorageDeviceCard.cpp */,
+				419F037F2956103200649F83 /* EmeraldSDHCBlockStorageDeviceCommands.cpp */,
+				419F037B295607F900649F83 /* EmeraldSDHCBlockStorageDevicePrivate.cpp */,
+				419F0381295A904400649F83 /* EmeraldSDHCCommand.cpp */,
+				419F0382295A904400649F83 /* EmeraldSDHCCommand.hpp */,
+				419F037329553A2400649F83 /* EmeraldSDHCSlot.cpp */,
+				419F037429553A2400649F83 /* EmeraldSDHCSlot.hpp */,
+				419F03692954BD6C00649F83 /* Info.plist */,
+				419F03722954F6EC00649F83 /* SDMisc.hpp */,
+				419F03712954F6E100649F83 /* SDRegs.hpp */,
+			);
+			path = EmeraldSDHC;
+			sourceTree = "<group>";
+		};
+		419F036F2954C33400649F83 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				419F03622954BD6C00649F83 /* EmeraldSDHC.kext */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		419F035D2954BD6C00649F83 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				419F03662954BD6C00649F83 /* EmeraldSDHC.hpp in Headers */,
+				419F037A29556F5000649F83 /* EmeraldSDHCBlockStorageDevice.hpp in Headers */,
+				419F037629553A2400649F83 /* EmeraldSDHCSlot.hpp in Headers */,
+				419F0384295A904400649F83 /* EmeraldSDHCCommand.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		419F03612954BD6C00649F83 /* EmeraldSDHC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 419F036C2954BD6C00649F83 /* Build configuration list for PBXNativeTarget "EmeraldSDHC" */;
+			buildPhases = (
+				419F035D2954BD6C00649F83 /* Headers */,
+				419F035E2954BD6C00649F83 /* Sources */,
+				419F035F2954BD6C00649F83 /* Frameworks */,
+				419F03602954BD6C00649F83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EmeraldSDHC;
+			productName = EmeraldSDHC;
+			productReference = 419F03622954BD6C00649F83 /* EmeraldSDHC.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		419F03592954BD6C00649F83 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					419F03612954BD6C00649F83 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+				};
+			};
+			buildConfigurationList = 419F035C2954BD6C00649F83 /* Build configuration list for PBXProject "EmeraldSDHC" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 419F03582954BD6C00649F83;
+			productRefGroup = 419F036F2954C33400649F83 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				419F03612954BD6C00649F83 /* EmeraldSDHC */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		419F03602954BD6C00649F83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		419F035E2954BD6C00649F83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				419F037E29560E4700649F83 /* EmeraldSDHCBlockStorageDeviceCard.cpp in Sources */,
+				419F037C295607F900649F83 /* EmeraldSDHCBlockStorageDevicePrivate.cpp in Sources */,
+				419F037529553A2400649F83 /* EmeraldSDHCSlot.cpp in Sources */,
+				419F037929556F5000649F83 /* EmeraldSDHCBlockStorageDevice.cpp in Sources */,
+				419F0383295A904400649F83 /* EmeraldSDHCCommand.cpp in Sources */,
+				419F03802956103200649F83 /* EmeraldSDHCBlockStorageDeviceCommands.cpp in Sources */,
+				419F03682954BD6C00649F83 /* EmeraldSDHC.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		419F036A2954BD6C00649F83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"MODULE_VERSION=$(MODULE_VERSION)",
+					"PRODUCT_NAME=$(PRODUCT_NAME)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				KERNEL_EXTENSION_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/MacKernelSDK/Headers";
+				KERNEL_FRAMEWORK_HEADERS = "$(PROJECT_DIR)/MacKernelSDK/Headers";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/MacKernelSDK/Library/universal";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MODULE_VERSION = 0.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		419F036B2954BD6C00649F83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"MODULE_VERSION=$(MODULE_VERSION)",
+					"PRODUCT_NAME=$(PRODUCT_NAME)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				KERNEL_EXTENSION_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/MacKernelSDK/Headers";
+				KERNEL_FRAMEWORK_HEADERS = "$(PROJECT_DIR)/MacKernelSDK/Headers";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/MacKernelSDK/Library/universal";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MODULE_VERSION = 0.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		419F036D2954BD6C00649F83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(MODULE_VERSION)";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EmeraldSDHC/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				MARKETING_VERSION = "$(MODULE_VERSION)";
+				MODULE_NAME = fish.goldfish64.EmeraldSDHC;
+				OTHER_CFLAGS = (
+					"-mmmx",
+					"-msse",
+					"-msse2",
+					"-msse3",
+					"-mfpmath=sse",
+					"-mssse3",
+					"-ftree-vectorize",
+					"-fno-non-call-exceptions",
+					"-fno-builtin",
+					"-fno-asynchronous-unwind-tables",
+					"-Wno-unknown-warning-option",
+					"-Wno-ossharedptr-misuse",
+					"-Wno-vla",
+					"-Wno-stdlibcxx-not-found",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fish.goldfish64.EmeraldSDHC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Debug;
+		};
+		419F036E2954BD6C00649F83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(MODULE_VERSION)";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EmeraldSDHC/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				MARKETING_VERSION = "$(MODULE_VERSION)";
+				MODULE_NAME = fish.goldfish64.EmeraldSDHC;
+				OTHER_CFLAGS = (
+					"-mmmx",
+					"-msse",
+					"-msse2",
+					"-msse3",
+					"-mfpmath=sse",
+					"-mssse3",
+					"-ftree-vectorize",
+					"-fno-non-call-exceptions",
+					"-fno-builtin",
+					"-fno-asynchronous-unwind-tables",
+					"-Wno-unknown-warning-option",
+					"-Wno-ossharedptr-misuse",
+					"-Wno-vla",
+					"-Wno-stdlibcxx-not-found",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fish.goldfish64.EmeraldSDHC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		419F035C2954BD6C00649F83 /* Build configuration list for PBXProject "EmeraldSDHC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				419F036A2954BD6C00649F83 /* Debug */,
+				419F036B2954BD6C00649F83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		419F036C2954BD6C00649F83 /* Build configuration list for PBXNativeTarget "EmeraldSDHC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				419F036D2954BD6C00649F83 /* Debug */,
+				419F036E2954BD6C00649F83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 419F03592954BD6C00649F83 /* Project object */;
+}
