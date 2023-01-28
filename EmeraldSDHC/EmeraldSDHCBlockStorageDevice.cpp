@@ -73,13 +73,13 @@ bool EmeraldSDHCBlockStorageDevice::start(IOService *provider) {
     //
     bufDesc = IOBufferMemoryDescriptor::inTaskWithPhysicalMask(kernel_task,
                                                                kIODirectionInOut | kIOMemoryPhysicallyContiguous,
-                                                               ((kSDAMaxBlocksPerTransfer * kSDABlockSize) / PAGE_SIZE) * sizeof (*descs), 0xFFFFF000ULL);
+                                                               kSDANumADMA2Descriptors * sizeof (*descs), 0xFFFFF000ULL);
     bufDesc->prepare();
     
     descAddr = bufDesc->getPhysicalAddress();
     descs   = (SDHostADMA2Descriptor32*) bufDesc->getBytesNoCopy();
     
-    bzero(descs, ((kSDAMaxBlocksPerTransfer * kSDABlockSize) / PAGE_SIZE) * sizeof (*descs));
+    bzero(descs, kSDANumADMA2Descriptors * sizeof (*descs));
 
     queue_init(&_cmdQueue);
 

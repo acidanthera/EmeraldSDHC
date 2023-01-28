@@ -565,7 +565,7 @@ bool EmeraldSDHCBlockStorageDevice::switchMMCSpeed() {
     _hcTransferType = kSDATransferTypePIO;
   }
   EMDBGLOG("No DMA support, using PIO");
-  _hcTransferType = kSDATransferTypeSDMA;
+ //_hcTransferType = kSDATransferTypeSDMA;
   _cardSlot->setControllerDMAMode(_hcTransferType);
   
   memset(&_mmcExtendedCSD, 0, sizeof (_mmcExtendedCSD));

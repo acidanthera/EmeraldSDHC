@@ -197,6 +197,7 @@ static const SDACommandTableEntry SDAppCommandTable[] = {
 };
 
 EmeraldSDHCCommand* EmeraldSDHCBlockStorageDevice::allocatePoolCommand() {
+  EMDBGLOG("Allocating pool command");
   EmeraldSDHCCommand *command = OSTypeAlloc(EmeraldSDHCCommand);
   if (command == nullptr) {
     return nullptr;
@@ -470,6 +471,7 @@ void EmeraldSDHCBlockStorageDevice::doAsyncIO(UInt16 interruptStatus) {
     //
     case kEmeraldSDHCStateComplete:
       if (_currentCommand->memoryDescriptor != nullptr) {
+        _currentCommand->dmaCommand->complete();
         _currentCommand->dmaCommand->clearMemoryDescriptor();
       }
       IOStorage::complete(&_currentCommand->completion, _currentCommand->result,
@@ -497,61 +499,68 @@ IOReturn EmeraldSDHCBlockStorageDevice::prepareAsyncDataTransfer(EmeraldSDHCComm
   IODMACommand::Segment32 segment;
 
   //
-  // Prepare DMA structures.
-  //
-  // Generate first DMA segment if using DMA, which can only use 32-bit addresses and fixed 4KB segments.
+  // Prepare DMA structures if using DMA.
   // TODO: Support 64-bit on controllers that support it.
   //
-  if (_hcTransferType == kSDATransferTypeADMA2) {
-    status = command->dmaCommand->setMemoryDescriptor(command->memoryDescriptor);
+  if (_hcTransferType != kSDATransferTypePIO) {
+    //
+    // Setup IODMACommand to read/write the desired blocks.
+    //
+    status = command->dmaCommand->setMemoryDescriptor(command->memoryDescriptor, false);
     if (status != kIOReturnSuccess) {
-      EMDBGLOG("Failed to prepare DMA structures with status 0x%X", status);
+      EMDBGLOG("Failed to set memory descriptor with status 0x%X", status);
+      return status;
+    }
+    status = command->dmaCommand->prepare(command->memoryDescriptorOffset, command->blockCount * command->blockSize, true, true);
+    if (status != kIOReturnSuccess) {
+      EMDBGLOG("Failed to prepare DMA command with status 0x%X", status);
+      command->dmaCommand->clearMemoryDescriptor();
       return status;
     }
 
-    command->currentDataOffset = 0;
-    
-    bzero(descs, ((kSDAMaxBlocksPerTransfer * kSDABlockSize) / PAGE_SIZE) * sizeof (*descs));
-    for (int i = 0; i < (kSDAMaxBlocksPerTransfer * kSDABlockSize) / PAGE_SIZE; i++) {
-      status = command->dmaCommand->gen32IOVMSegments(&command->memoryDescriptorOffset, &segment, &numSegments);
-      if (status != kIOReturnSuccess) {
-        EMDBGLOG("Failed to generate DMA segments with status 0x%X", status);
-        break;
-      }
-      
-      descs[i].address = segment.fIOVMAddr;
-      descs[i].length16 = segment.fLength;
-      descs[i].action = kSDHostADMA2DescriptorActionTransfer;
-      descs[i].valid = 1;
-      command->currentDataOffset += segment.fLength;
-      
-      if (command->currentDataOffset >= command->blockCount * command->blockSize) {
-        descs[i].end = 1;
-        if (command->blockCount != command->blockCountTotal) {
-          EMDBGLOG("All done, got %u bytes for ADMA %u total bl 0x%X", command->currentDataOffset, command->blockCountTotal, command->memoryDescriptorOffset);
+    //
+    // Generate all segments if using ADMA2, which can be of any length.
+    //
+    if (_hcTransferType == kSDATransferTypeADMA2) {
+      bzero(descs, kSDANumADMA2Descriptors * sizeof (*descs));
+      for (int i = 0; i < kSDANumADMA2Descriptors; i++) {
+        status = command->dmaCommand->gen32IOVMSegments(&command->currentDataOffset, &segment, &numSegments);
+        if (status != kIOReturnSuccess) {
+          EMDBGLOG("Failed to generate ADMA segments with status 0x%X", status);
+          break;
         }
 
-        break;
+        descs[i].address  = segment.fIOVMAddr;
+        descs[i].length16 = segment.fLength;
+        descs[i].action   = kSDHostADMA2DescriptorActionTransfer;
+        descs[i].valid    = 1;
+
+        if (command->currentDataOffset >= command->blockCount * command->blockSize) {
+          descs[i].end = 1;
+          if (command->blockCount != command->blockCountTotal) {
+            EMIODBGLOG("All done, got %u bytes for ADMA %u total bl 0x%X",
+                       command->currentDataOffset, command->blockCountTotal, command->memoryDescriptorOffset);
+          }
+          break;
+        }
       }
-    }
 
-    _cardSlot->writeReg32(kSDHCRegADMASysAddress, descAddr);
-    EMIODBGLOG("Using ADMA physical address 0x%p", descAddr);
-  } else if (_hcTransferType == kSDATransferTypeSDMA) {
-    status = command->dmaCommand->setMemoryDescriptor(command->memoryDescriptor);
-    if (status != kIOReturnSuccess) {
-      EMDBGLOG("Failed to prepare DMA structures with status 0x%X", status);
-      return status;
-    }
+      _cardSlot->writeReg32(kSDHCRegADMASysAddress, descAddr);
+      EMIODBGLOG("Using ADMA physical address %p", descAddr);
 
-    status = command->dmaCommand->gen32IOVMSegments(&command->memoryDescriptorOffset, &segment, &numSegments);
-    if (status != kIOReturnSuccess) {
-      EMDBGLOG("Failed to generate DMA segments with status 0x%X", status);
-      return status;
+    //
+    // Generate first DMA segment if using SDMA, which will use fixed 4KB segments.
+    //
+    } else if (_hcTransferType == kSDATransferTypeSDMA) {
+      status = command->dmaCommand->gen32IOVMSegments(&command->currentDataOffset, &segment, &numSegments);
+      if (status != kIOReturnSuccess) {
+        EMDBGLOG("Failed to generate SDMA segment with status 0x%X", status);
+        return status;
+      }
+
+      _cardSlot->writeReg32(kSDHCRegSDMA, segment.fIOVMAddr);
+      EMIODBGLOG("Using SDMA physical address %p for first segment", segment.fIOVMAddr);
     }
-    command->currentDataOffset = segment.fLength;
-    _cardSlot->writeReg32(kSDHCRegSDMA, segment.fIOVMAddr);
-    EMIODBGLOG("Using DMA physical address 0x%p", segment.fIOVMAddr);
   }
 
   //
@@ -589,8 +598,10 @@ IOReturn EmeraldSDHCBlockStorageDevice::prepareAsyncDataTransfer(EmeraldSDHCComm
 }
 
 IOReturn EmeraldSDHCBlockStorageDevice::executeAsyncDataTransfer(EmeraldSDHCCommand *command, UInt16 interruptStatus) {
-  UInt32 data32;
-  UInt32 numSegments = 1;
+  IOReturn status;
+  UInt32   data32;
+  UInt32   numSegments = 1;
+
   IODMACommand::Segment32 segment;
 
   if ((interruptStatus & (kSDHCRegNormalIntStatusTransferComplete | kSDHCRegNormalIntStatusDMAInterrupt | kSDHCRegNormalIntStatusBufferReadReady | kSDHCRegNormalIntStatusBufferWriteReady)) == 0 && (command->cmdEntry->flags & kSDACommandFlagsIgnoreTransferComplete) == 0) {
@@ -623,9 +634,9 @@ IOReturn EmeraldSDHCBlockStorageDevice::executeAsyncDataTransfer(EmeraldSDHCComm
     for (int i = 0; i < (command->blockSize / sizeof (data32)); i++) {
       if (command->cmdEntry->dataDirection == kSDADataDirectionCardToHost) {
         data32 = _cardSlot->readReg32(kSDHCRegBufferDataPort);
-        command->memoryDescriptor->writeBytes(command->currentDataOffset, &data32, sizeof (data32));
+        command->memoryDescriptor->writeBytes(command->memoryDescriptorOffset + command->currentDataOffset, &data32, sizeof (data32));
       } else {
-        command->memoryDescriptor->readBytes(command->currentDataOffset, &data32, sizeof (data32));
+        command->memoryDescriptor->readBytes(command->memoryDescriptorOffset + command->currentDataOffset, &data32, sizeof (data32));
         _cardSlot->writeReg32(kSDHCRegBufferDataPort, data32);
       }
       command->currentDataOffset += sizeof (data32);
@@ -637,13 +648,13 @@ IOReturn EmeraldSDHCBlockStorageDevice::executeAsyncDataTransfer(EmeraldSDHCComm
   // When the next block is ready to be read or written, a DMA interrupt will be raised.
   //
   } else if (_hcTransferType == kSDATransferTypeSDMA) {
-    numSegments = 1;
-    if (command->dmaCommand->gen32IOVMSegments(&command->memoryDescriptorOffset, &segment, &numSegments) != kIOReturnSuccess) {
-      panic("failed to gen32IOVMSegments");
+    status = command->dmaCommand->gen32IOVMSegments(&command->currentDataOffset, &segment, &numSegments);
+    if (status != kIOReturnSuccess) {
+      EMDBGLOG("Failed to generate SDMA segment with status 0x%X", status);
+      return status;
     }
-    command->currentDataOffset += segment.fLength;
     _cardSlot->writeReg32(kSDHCRegSDMA, segment.fIOVMAddr);
-    EMIODBGLOG("Processed next block, current data offset 0x%X", command->currentDataOffset);
+    EMIODBGLOG("Processed next SDMA block, current data offset 0x%X", command->currentDataOffset);
   }
 
   return kIOReturnSuccess;

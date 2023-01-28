@@ -69,6 +69,8 @@ typedef enum {
 
 #define kSDAMaxBlocksPerTransfer  61440
 
+#define kSDANumADMA2Descriptors   ((kSDAMaxBlocksPerTransfer * kSDABlockSize) / PAGE_SIZE)
+
 #define kSDAMaskTimeout           100000
 
 typedef enum {
