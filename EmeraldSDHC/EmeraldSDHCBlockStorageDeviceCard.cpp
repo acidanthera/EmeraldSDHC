@@ -522,7 +522,7 @@ bool EmeraldSDHCBlockStorageDevice::switchMMCExtendedCSD(MMCSwitchAccessBits acc
 bool EmeraldSDHCBlockStorageDevice::switchMMCSpeed() {
   SDABusWidth busWidth;
   MMCTimingSpeed speed;
-  
+
   //
   // Set speed to max supported.
   //
@@ -535,18 +535,14 @@ bool EmeraldSDHCBlockStorageDevice::switchMMCSpeed() {
   } else if (_mmcExtendedCSD.deviceType & (kMMCDeviceTypeHighSpeed_DDR_52MHz_1_2V | kMMCDeviceTypeHighSpeed_DDR_52MHz_1_8V_3V)) {
     
   }
-  
+
   setCardBusWidth(kSDABusWidth8, false);
-  //setControllerClock(26 * MHz);
 
   setMMCSpeed(kMMCTimingSpeedHS200);
   _cardSlot->setControllerClock(200 * MHz);
   
   tuneCard(kSDABusWidth8);
-  //IOSleep(1000);
-  
- // parseCSD();
- // IOSleep(1000);
+
   
   UInt64 hostCaps = _cardSlot->getControllerCapabilities();
   EMDBGLOG("Host controller slot capabilities: 0x%llX", hostCaps);
@@ -565,26 +561,11 @@ bool EmeraldSDHCBlockStorageDevice::switchMMCSpeed() {
     _hcTransferType = kSDATransferTypePIO;
   }
   EMDBGLOG("No DMA support, using PIO");
- //_hcTransferType = kSDATransferTypeSDMA;
   _cardSlot->setControllerDMAMode(_hcTransferType);
   
   memset(&_mmcExtendedCSD, 0, sizeof (_mmcExtendedCSD));
   parseMMCExtendedCSD();
-  
- /* setControllerClock(52000000);
-  setMMCSpeed(kMMCTimingSpeedHighSpeed);
-  
-  setCardBusWidth(kSDABusWidth8, true);
-  
-  memset(&_mmcExtendedCSD, 0, sizeof (_mmcExtendedCSD));
-  parseMMCExtendedCSD();
-  
-  setMMCSpeed(kMMCTimingSpeedHS400);
-  setControllerClock(200 * MHz);*/
-  
-  memset(&_mmcExtendedCSD, 0, sizeof (_mmcExtendedCSD));
-  parseMMCExtendedCSD();
-  
+
   return true;
 }
 
