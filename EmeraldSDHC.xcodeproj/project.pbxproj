@@ -21,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4135E6ED29861FE400383A95 /* Changelog.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Changelog.md; sourceTree = "<group>"; };
 		419F03622954BD6C00649F83 /* EmeraldSDHC.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmeraldSDHC.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		419F03652954BD6C00649F83 /* EmeraldSDHC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EmeraldSDHC.hpp; sourceTree = "<group>"; };
 		419F03672954BD6C00649F83 /* EmeraldSDHC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EmeraldSDHC.cpp; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 			children = (
 				419F03642954BD6C00649F83 /* EmeraldSDHC */,
 				419F036F2954C33400649F83 /* Products */,
+				4135E6ED29861FE400383A95 /* Changelog.md */,
 				419F03702954C45100649F83 /* README.md */,
 			);
 			sourceTree = "<group>";
