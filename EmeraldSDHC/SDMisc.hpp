@@ -73,6 +73,8 @@ typedef enum {
 
 #define kSDAMaskTimeout           100000
 
+#define kSDAInitialCommandPoolSize 10
+
 typedef enum {
   kSDABusWidth1,
   kSDABusWidth4,

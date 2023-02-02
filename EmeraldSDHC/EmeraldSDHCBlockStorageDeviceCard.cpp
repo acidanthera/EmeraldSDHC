@@ -520,7 +520,7 @@ bool EmeraldSDHCBlockStorageDevice::switchMMCExtendedCSD(MMCSwitchAccessBits acc
 }
 
 bool EmeraldSDHCBlockStorageDevice::switchMMCSpeed() {
-  SDABusWidth busWidth;
+  /*SDABusWidth busWidth;
   MMCTimingSpeed speed;
 
   //
@@ -534,7 +534,7 @@ bool EmeraldSDHCBlockStorageDevice::switchMMCSpeed() {
     speed = kMMCTimingSpeedHS200;
   } else if (_mmcExtendedCSD.deviceType & (kMMCDeviceTypeHighSpeed_DDR_52MHz_1_2V | kMMCDeviceTypeHighSpeed_DDR_52MHz_1_8V_3V)) {
     
-  }
+  }*/
 
   setCardBusWidth(kSDABusWidth8, false);
 

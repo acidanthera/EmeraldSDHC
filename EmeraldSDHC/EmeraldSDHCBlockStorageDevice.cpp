@@ -54,10 +54,18 @@ bool EmeraldSDHCBlockStorageDevice::start(IOService *provider) {
       EMSYSLOG("Failed to initialize command pool");
       break;
     }
+    
+    _initialCommands = (EmeraldSDHCCommand**) IOMallocZero(sizeof (*_initialCommands) * kSDAInitialCommandPoolSize);
+    if (_initialCommands == nullptr) {
+      EMSYSLOG("Failed to initialize initial command array");
+      break;
+    }
 
-    for (int i = 0; i < 10; i++) {
-      poolCommandSuccess = allocatePoolCommand() != nullptr;
-      if (!poolCommandSuccess) {
+    poolCommandSuccess = true;
+    for (int i = 0; i < kSDAInitialCommandPoolSize; i++) {
+      _initialCommands[i] = allocatePoolCommand();
+      if (_initialCommands[i] == nullptr) {
+        poolCommandSuccess = false;
         break;
       }
     }
@@ -174,6 +182,11 @@ void EmeraldSDHCBlockStorageDevice::stop(IOService *provider) {
     IOLockFree(_syncCommandLock);
     _syncCommandLock = nullptr;
   }
+  
+  for (int i = 0; i < kSDAInitialCommandPoolSize; i++) {
+    OSSafeReleaseNULL(_initialCommands[i]);
+  }
+  OSSafeReleaseNULL(_cmdPool);
 
   super::stop(provider);
 }
@@ -341,6 +354,10 @@ IOReturn EmeraldSDHCBlockStorageDevice::doAsyncReadWrite(IOMemoryDescriptor *buf
   UInt64        blockCountRemaining;
   UInt32        blockCount;
   IOByteCount   offset = 0;
+  
+  if (nblks > UINT32_MAX) {
+    return kIOReturnNoResources;
+  }
 
   //
   // Sleep if machine was previously sleeping to allow controller/card to be reset.
@@ -396,7 +413,7 @@ IOReturn EmeraldSDHCBlockStorageDevice::doAsyncReadWrite(IOMemoryDescriptor *buf
     }
     
     if (doAsyncCommandWithData(cmdIndex, _isCardHighCapacity ? blockStart : blockStart * kSDABlockSize,
-                               kSDATimeout_120sec, blockCountRemaining == 0 ? completion : nullptr, blockCount, nblks,
+                               kSDATimeout_120sec, blockCountRemaining == 0 ? completion : nullptr, blockCount, (UInt32) nblks,
                                kSDABlockSize, buffer, offset) != kIOReturnSuccess) {
       panic("error");
       return kIOReturnNoResources;

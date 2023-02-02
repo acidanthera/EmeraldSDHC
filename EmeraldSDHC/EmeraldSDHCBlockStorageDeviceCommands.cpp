@@ -312,15 +312,11 @@ IOReturn EmeraldSDHCBlockStorageDevice::doAsyncCommandGated(EmeraldSDHCAsyncComm
 
   //
   // Get next available command.
-  // If none available, allocate.
+  // If none available, fail.
   //
   command = reinterpret_cast<EmeraldSDHCCommand*>(_cmdPool->getCommand());
   if (command == nullptr) {
-    command = allocatePoolCommand();
-    if (command == nullptr) {
-      EMDBGLOG("Failed to allocate command, no more commands in command pool");
-      return kIOReturnNoResources;
-    }
+    return kIOReturnNoResources;
   }
   command->zeroCommand();
 
@@ -487,6 +483,10 @@ void EmeraldSDHCBlockStorageDevice::doAsyncIO(UInt16 interruptStatus) {
         doAsyncIO();
       }
 
+      break;
+
+    default:
+      EMDBGLOG("Unknown state %u", _currentCommand->state);
       break;
   }
 }

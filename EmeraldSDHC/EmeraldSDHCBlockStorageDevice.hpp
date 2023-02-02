@@ -94,6 +94,7 @@ private:
   EmeraldSDHCCommand *_currentCommand = nullptr;
   IOCommandPool      *_cmdPool        = nullptr;
   queue_head_t       _cmdQueue        = { };
+  EmeraldSDHCCommand **_initialCommands = nullptr;
 
   IOLock   *_syncCommandLock      = nullptr;
   bool     _isSleepingSyncCommand = false;
