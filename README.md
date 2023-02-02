@@ -1,6 +1,6 @@
 # EmeraldSDHC
 
-[![Build Status](https://github.com/acidanthera/EmeraldSDHC/workflows/CI/badge.svg?branch=master)](https://github.com/acidanthera/EmeraldSDHC/actions)
+[![Build Status](https://github.com/acidanthera/EmeraldSDHC/workflows/CI/badge.svg?branch=master)](https://github.com/acidanthera/EmeraldSDHC/actions) [![Scan Status](https://scan.coverity.com/projects/27398/badge.svg?flat=1)](https://scan.coverity.com/projects/27398)
 
 macOS kernel extension for devices complying with the Secure Digital Host Controller (SDHC) specification. Currently only supports eMMC/MMC cards at up to HS200 speeds.
 
