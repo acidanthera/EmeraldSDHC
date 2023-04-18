@@ -24,24 +24,30 @@ bool EmeraldSDHC::start(IOService *provider) {
 
   do {
     //
-    // Get IOPCIDevice provider.
+    // Get IOPCIDevice or IOACPIPlatformDevice provider.
     //
     _acpiDevice = OSDynamicCast(IOACPIPlatformDevice, provider);
     if (_acpiDevice != nullptr) {
-      EMSYSLOG("Provider is IOACPIDevice");
+      EMSYSLOG("Provider is IOACPIPlatformDevice");
       EmeraldSDHC::isAcpiDevice = true;
+      break;
+    } else if (_acpiDevice == nullptr) {
+      EMSYSLOG("Provider is not IOACPIPlatformDevice");
       break;
     }
     _acpiDevice->retain();
-      
+
     _pciDevice = OSDynamicCast(IOPCIDevice, provider);
     if (_pciDevice != nullptr) {
       EMSYSLOG("Provider is IOPCIDevice");
       EmeraldSDHC::isAcpiDevice = false;
       break;
+    } else if (_pciDevice == nullptr) {
+        EMSYSLOG("Provider is not IOPCIDevice");
+        break;
     }
     _pciDevice->retain();
-    
+
     //
     // Create work loop and interrupt source.
     //
@@ -91,6 +97,7 @@ void EmeraldSDHC::stop(IOService *provider) {
 
   OSSafeReleaseNULL(_workLoop);
   OSSafeReleaseNULL(_acpiDevice);
+  OSSafeReleaseNULL(_pciDevice);
 }
 
 IOWorkLoop* EmeraldSDHC::getWorkLoop() const {
@@ -120,7 +127,6 @@ bool EmeraldSDHC::probeCardSlots() {
   } else if (EmeraldSDHC::isAcpiDevice == false) {
     _cardSlotCount = _pciDevice->getDeviceMemoryCount();
   }
-  _cardSlotCount = _acpiDevice->getDeviceMemoryCount();
   if (_cardSlotCount > kSDHCMaximumSlotCount) {
     EMSYSLOG("More than %u card slots are present, limiting to %u", kSDHCMaximumSlotCount, kSDHCMaximumSlotCount);
     _cardSlotCount = kSDHCMaximumSlotCount;
