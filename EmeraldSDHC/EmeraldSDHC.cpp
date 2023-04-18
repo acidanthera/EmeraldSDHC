@@ -28,22 +28,20 @@ bool EmeraldSDHC::start(IOService *provider) {
     //
     _acpiDevice = OSDynamicCast(IOACPIPlatformDevice, provider);
     if (_acpiDevice != nullptr) {
-      EMSYSLOG("Provider is IOACPIPlatformDevice");
       EmeraldSDHC::isAcpiDevice = true;
-      break;
     } else {
         EMSYSLOG("Provider is not IOACPIPlatformDevice");
+        break;
     }
     _acpiDevice->retain();
 
     if (EmeraldSDHC::isAcpiDevice == false) {
       _pciDevice = OSDynamicCast(IOPCIDevice, provider);
       if (_pciDevice != nullptr) {
-        EMSYSLOG("Provider is IOPCIDevice");
         EmeraldSDHC::isAcpiDevice = false;
-        break;
       } else {
           EMSYSLOG("Provider is not IOPCIDevice");
+          break;
       }
       _pciDevice->retain();
       break;
@@ -85,7 +83,6 @@ bool EmeraldSDHC::start(IOService *provider) {
   } while (false);
 
   if (!result) {
-    EMSYSLOG("Result returned failure, exiting...");
     stop(provider);
   }
   return result;
@@ -125,7 +122,6 @@ bool EmeraldSDHC::probeCardSlots() {
   //
   if (EmeraldSDHC::isAcpiDevice == true) {
     _cardSlotCount = _acpiDevice->getDeviceMemoryCount();
-    EMSYSLOG("Got Active Card Slots");
   } else if (EmeraldSDHC::isAcpiDevice == false) {
     _cardSlotCount = _pciDevice->getDeviceMemoryCount();
   }
@@ -136,7 +132,7 @@ bool EmeraldSDHC::probeCardSlots() {
     EMSYSLOG("No card slots are present on SD host controller");
     return false;
   }
-  EMDBGLOG("Detected %u card slot(s) on SD host controller", _cardSlotCount);
+  EMSYSLOG("Detected %u card slot(s) on SD host controller", _cardSlotCount);
 
   bzero(_cardSlotMemoryMaps, sizeof (_cardSlotMemoryMaps));
   bzero(_cardSlotBaseMemory, sizeof (_cardSlotBaseMemory));
@@ -156,7 +152,6 @@ bool EmeraldSDHC::probeCardSlots() {
     //
     if (EmeraldSDHC::isAcpiDevice == true) {
       _cardSlotMemoryMaps[slot] = _acpiDevice->mapDeviceMemoryWithIndex(slot);
-      EMSYSLOG("Mapped Card Slot Memory");
     } else if (EmeraldSDHC::isAcpiDevice == false) {
       _cardSlotMemoryMaps[slot] = _pciDevice->mapDeviceMemoryWithIndex(slot);
     }
