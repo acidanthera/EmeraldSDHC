@@ -30,7 +30,7 @@ private:
   IOACPIPlatformDevice   *_acpiDevice     = nullptr;
   IOWorkLoop             *_workLoop       = nullptr;
   IOInterruptEventSource *_intEventSource = nullptr;
-  bool isAcpiDevice;
+  bool isAcpiDevice = false;
 
   //
   // Child slots.

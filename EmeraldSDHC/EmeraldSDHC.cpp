@@ -31,22 +31,23 @@ bool EmeraldSDHC::start(IOService *provider) {
       EMSYSLOG("Provider is IOACPIPlatformDevice");
       EmeraldSDHC::isAcpiDevice = true;
       break;
-    } else if (_acpiDevice == nullptr) {
-      EMSYSLOG("Provider is not IOACPIPlatformDevice");
-      break;
+    } else {
+        EMSYSLOG("Provider is not IOACPIPlatformDevice");
     }
     _acpiDevice->retain();
 
-    _pciDevice = OSDynamicCast(IOPCIDevice, provider);
-    if (_pciDevice != nullptr) {
-      EMSYSLOG("Provider is IOPCIDevice");
-      EmeraldSDHC::isAcpiDevice = false;
-      break;
-    } else if (_pciDevice == nullptr) {
-        EMSYSLOG("Provider is not IOPCIDevice");
+    if (EmeraldSDHC::isAcpiDevice == false) {
+      _pciDevice = OSDynamicCast(IOPCIDevice, provider);
+      if (_pciDevice != nullptr) {
+        EMSYSLOG("Provider is IOPCIDevice");
+        EmeraldSDHC::isAcpiDevice = false;
         break;
+      } else {
+          EMSYSLOG("Provider is not IOPCIDevice");
+      }
+      _pciDevice->retain();
+      break;
     }
-    _pciDevice->retain();
 
     //
     // Create work loop and interrupt source.
@@ -84,6 +85,7 @@ bool EmeraldSDHC::start(IOService *provider) {
   } while (false);
 
   if (!result) {
+    EMSYSLOG("Result returned failure, exiting...");
     stop(provider);
   }
   return result;
@@ -96,7 +98,6 @@ void EmeraldSDHC::stop(IOService *provider) {
   }
 
   OSSafeReleaseNULL(_workLoop);
-  OSSafeReleaseNULL(_acpiDevice);
   OSSafeReleaseNULL(_pciDevice);
 }
 
@@ -124,6 +125,7 @@ bool EmeraldSDHC::probeCardSlots() {
   //
   if (EmeraldSDHC::isAcpiDevice == true) {
     _cardSlotCount = _acpiDevice->getDeviceMemoryCount();
+    EMSYSLOG("Got Active Card Slots");
   } else if (EmeraldSDHC::isAcpiDevice == false) {
     _cardSlotCount = _pciDevice->getDeviceMemoryCount();
   }
@@ -154,6 +156,7 @@ bool EmeraldSDHC::probeCardSlots() {
     //
     if (EmeraldSDHC::isAcpiDevice == true) {
       _cardSlotMemoryMaps[slot] = _acpiDevice->mapDeviceMemoryWithIndex(slot);
+      EMSYSLOG("Mapped Card Slot Memory");
     } else if (EmeraldSDHC::isAcpiDevice == false) {
       _cardSlotMemoryMaps[slot] = _pciDevice->mapDeviceMemoryWithIndex(slot);
     }
