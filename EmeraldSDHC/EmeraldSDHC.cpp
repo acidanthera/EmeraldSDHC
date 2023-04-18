@@ -26,13 +26,22 @@ bool EmeraldSDHC::start(IOService *provider) {
     //
     // Get IOPCIDevice provider.
     //
+    _acpiDevice = OSDynamicCast(IOACPIPlatformDevice, provider);
+    if (_acpiDevice != nullptr) {
+      EMSYSLOG("Provider is IOACPIDevice");
+      EmeraldSDHC::isAcpiDevice = true;
+      break;
+    }
+    _acpiDevice->retain();
+      
     _pciDevice = OSDynamicCast(IOPCIDevice, provider);
-    if (_pciDevice == nullptr) {
-      EMSYSLOG("Provider is not IOPCIDevice");
+    if (_pciDevice != nullptr) {
+      EMSYSLOG("Provider is IOPCIDevice");
+      EmeraldSDHC::isAcpiDevice = false;
       break;
     }
     _pciDevice->retain();
-
+    
     //
     // Create work loop and interrupt source.
     //
@@ -81,7 +90,7 @@ void EmeraldSDHC::stop(IOService *provider) {
   }
 
   OSSafeReleaseNULL(_workLoop);
-  OSSafeReleaseNULL(_pciDevice);
+  OSSafeReleaseNULL(_acpiDevice);
 }
 
 IOWorkLoop* EmeraldSDHC::getWorkLoop() const {
@@ -106,7 +115,12 @@ bool EmeraldSDHC::probeCardSlots() {
   // Get number of active card slots.
   // Each card slot will have exactly one BAR on the PCI device, for a maximum of 6.
   //
-  _cardSlotCount = _pciDevice->getDeviceMemoryCount();
+  if (EmeraldSDHC::isAcpiDevice == true) {
+    _cardSlotCount = _acpiDevice->getDeviceMemoryCount();
+  } else if (EmeraldSDHC::isAcpiDevice == false) {
+    _cardSlotCount = _pciDevice->getDeviceMemoryCount();
+  }
+  _cardSlotCount = _acpiDevice->getDeviceMemoryCount();
   if (_cardSlotCount > kSDHCMaximumSlotCount) {
     EMSYSLOG("More than %u card slots are present, limiting to %u", kSDHCMaximumSlotCount, kSDHCMaximumSlotCount);
     _cardSlotCount = kSDHCMaximumSlotCount;
@@ -132,7 +146,11 @@ bool EmeraldSDHC::probeCardSlots() {
     //
     // Map memory for card slot.
     //
-    _cardSlotMemoryMaps[slot] = _pciDevice->mapDeviceMemoryWithIndex(slot);
+    if (EmeraldSDHC::isAcpiDevice == true) {
+      _cardSlotMemoryMaps[slot] = _acpiDevice->mapDeviceMemoryWithIndex(slot);
+    } else if (EmeraldSDHC::isAcpiDevice == false) {
+      _cardSlotMemoryMaps[slot] = _pciDevice->mapDeviceMemoryWithIndex(slot);
+    }
     if (_cardSlotMemoryMaps[slot] == nullptr) {
       EMSYSLOG("Failed to get memory map for card slot %u", slot + 1);
       return false;

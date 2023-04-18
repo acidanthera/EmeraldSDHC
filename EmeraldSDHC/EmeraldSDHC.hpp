@@ -11,6 +11,7 @@
 #include <IOKit/IOInterruptEventSource.h>
 #include <IOKit/IOService.h>
 #include <IOKit/pci/IOPCIDevice.h>
+#include <IOKit/acpi/IOACPIPlatformDevice.h>
 
 #include "SDMisc.hpp"
 #include "SDRegs.hpp"
@@ -26,8 +27,10 @@ class EmeraldSDHC : public IOService {
 
 private:
   IOPCIDevice            *_pciDevice      = nullptr;
+  IOACPIPlatformDevice   *_acpiDevice     = nullptr;
   IOWorkLoop             *_workLoop       = nullptr;
   IOInterruptEventSource *_intEventSource = nullptr;
+  bool isAcpiDevice;
 
   //
   // Child slots.
