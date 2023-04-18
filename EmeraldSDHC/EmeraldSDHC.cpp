@@ -132,7 +132,7 @@ bool EmeraldSDHC::probeCardSlots() {
     EMSYSLOG("No card slots are present on SD host controller");
     return false;
   }
-  EMSYSLOG("Detected %u card slot(s) on SD host controller", _cardSlotCount);
+  EMDBGLOG("Detected %u card slot(s) on SD host controller", _cardSlotCount);
 
   bzero(_cardSlotMemoryMaps, sizeof (_cardSlotMemoryMaps));
   bzero(_cardSlotBaseMemory, sizeof (_cardSlotBaseMemory));
