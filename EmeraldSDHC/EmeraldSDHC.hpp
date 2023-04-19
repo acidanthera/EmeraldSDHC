@@ -26,11 +26,9 @@ class EmeraldSDHC : public IOService {
   typedef IOService super;
 
 private:
-  IOPCIDevice            *_pciDevice      = nullptr;
-  IOACPIPlatformDevice   *_acpiDevice     = nullptr;
+  IOService              *_device         = nullptr;
   IOWorkLoop             *_workLoop       = nullptr;
   IOInterruptEventSource *_intEventSource = nullptr;
-  bool isAcpiDevice = false;
 
   //
   // Child slots.
