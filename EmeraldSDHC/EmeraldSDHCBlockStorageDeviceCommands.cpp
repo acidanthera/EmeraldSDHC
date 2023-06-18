@@ -421,6 +421,7 @@ void EmeraldSDHCBlockStorageDevice::doAsyncIO(UInt16 interruptStatus) {
           && _currentCommand->cmdEntry->flags & kSDACommandFlagsIsApplicationCmd) {
         EMIODBGLOG("Command 0x%X is application command", _currentCommand->cmdEntry->command);
         if (sendAsyncCommand(&SDCommandTable[kSDCommandAppCommand], _cardAddress << kSDARelativeAddressShift)) {
+          _currentCommand->state = kEmeraldSDHCStateAppCommandSent;
           break;
         }
       }
