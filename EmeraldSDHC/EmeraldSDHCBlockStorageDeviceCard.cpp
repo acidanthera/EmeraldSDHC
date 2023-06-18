@@ -47,6 +47,7 @@ static const SDAVendor MMCVendors[] = {
 };
 
 void EmeraldSDHCBlockStorageDevice::handleCardChange() {
+  bool cardStatus = false;
   if (_cardSlot->isCardPresent() == _isCardInserted) {
     EMDBGLOG("Card insertion/removal event raised, but state did not change");
     return;
@@ -57,17 +58,15 @@ void EmeraldSDHCBlockStorageDevice::handleCardChange() {
   //
   if (_cardSlot->isCardPresent()) {
     EMDBGLOG("Card was inserted");
-
-    initController();
-    initCard();
-    messageClients(kIOMessageMediaStateHasChanged, reinterpret_cast<void*>(kIOMediaStateOnline), 0);
   } else {
     EMDBGLOG("Card was removed");
-
-    initController();
-    initCard();
-    messageClients(kIOMessageMediaStateHasChanged, reinterpret_cast<void*>(kIOMediaStateOffline), 0);
   }
+
+  if (!initController()) {
+    return;
+  }
+  cardStatus = initCard();
+  messageClients(kIOMessageMediaStateHasChanged, reinterpret_cast<void*>(cardStatus ? kIOMediaStateOnline : kIOMediaStateOffline), 0);
 }
 
 bool EmeraldSDHCBlockStorageDevice::resetCard() {
@@ -678,6 +677,7 @@ bool EmeraldSDHCBlockStorageDevice::initCard() {
     EMSYSLOG("Failed to initialize card");
     _cardSlot->setControllerPower(false);
     _cardSlot->setControllerClock(0);
+    _isCardInserted = false;
     return false;
   }
 

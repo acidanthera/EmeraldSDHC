@@ -240,7 +240,7 @@ IOReturn EmeraldSDHCBlockStorageDevice::doSyncCommandWithData(UInt32 command, UI
                                                               SDACommandResponse *response) {
   IOReturn status;
   
-  EMDBGLOG("Doing a sync command %u", command);
+  EMDBGLOG("Doing a sync command 0x%X", command);
 
   //
   // Create structures for sleeping for async command completion.
