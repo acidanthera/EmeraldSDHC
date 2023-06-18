@@ -55,11 +55,12 @@ bool EmeraldSDHCBlockStorageDevice::start(IOService *provider) {
       break;
     }
     
-    _initialCommands = (EmeraldSDHCCommand**) IOMallocZero(sizeof (*_initialCommands) * kSDAInitialCommandPoolSize);
+    _initialCommands = (EmeraldSDHCCommand**) IOMalloc(sizeof (*_initialCommands) * kSDAInitialCommandPoolSize);
     if (_initialCommands == nullptr) {
       EMSYSLOG("Failed to initialize initial command array");
       break;
     }
+    memset(_initialCommands, 0, sizeof (*_initialCommands) * kSDAInitialCommandPoolSize);
 
     poolCommandSuccess = true;
     for (int i = 0; i < kSDAInitialCommandPoolSize; i++) {
