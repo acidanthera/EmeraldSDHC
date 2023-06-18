@@ -348,7 +348,7 @@ IOReturn EmeraldSDHCBlockStorageDevice::doAsyncCommandGated(EmeraldSDHCAsyncComm
   command->state = kEmeraldSDHCStateStart;
 
   addCommandToQueue(command);
-  EMIODBGLOG("Added command %u to queue", args->command);
+  EMIODBGLOG("Added command 0x%X to queue", args->command);
   
   if (_currentCommand == nullptr) {
     
@@ -419,7 +419,7 @@ void EmeraldSDHCBlockStorageDevice::doAsyncIO(UInt16 interruptStatus) {
       //
       if (isSDCard() && _currentCommand->state != kEmeraldSDHCStateAppCommandSent
           && _currentCommand->cmdEntry->flags & kSDACommandFlagsIsApplicationCmd) {
-        EMIODBGLOG("Command %u is application command", _currentCommand->cmdEntry->command);
+        EMIODBGLOG("Command 0x%X is application command", _currentCommand->cmdEntry->command);
         if (sendAsyncCommand(&SDCommandTable[kSDCommandAppCommand], _cardAddress << kSDARelativeAddressShift)) {
           break;
         }
