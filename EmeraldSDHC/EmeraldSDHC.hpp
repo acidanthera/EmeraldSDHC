@@ -11,6 +11,7 @@
 #include <IOKit/IOInterruptEventSource.h>
 #include <IOKit/IOService.h>
 #include <IOKit/pci/IOPCIDevice.h>
+#include <IOKit/acpi/IOACPIPlatformDevice.h>
 
 #include "SDMisc.hpp"
 #include "SDRegs.hpp"
@@ -25,7 +26,7 @@ class EmeraldSDHC : public IOService {
   typedef IOService super;
 
 private:
-  IOPCIDevice            *_pciDevice      = nullptr;
+  IOService              *_device         = nullptr;
   IOWorkLoop             *_workLoop       = nullptr;
   IOInterruptEventSource *_intEventSource = nullptr;
 

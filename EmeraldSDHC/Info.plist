@@ -49,6 +49,26 @@
 			<key>IOProviderClass</key>
 			<string>EmeraldSDHCSlot</string>
 		</dict>
+		<key>EmeraldSDHC ACPI</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>IOClass</key>
+			<string>EmeraldSDHC</string>
+			<key>IONameMatch</key>
+			<string>PNP0D40</string>
+			<key>IOProbeScore</key>
+			<integer>1000</integer>
+			<key>IOProviderClass</key>
+			<string>IOACPIPlatformDevice</string>
+			<key>Protocol Characteristics</key>
+			<dict>
+				<key>Physical Interconnect</key>
+				<string>Secure Digital</string>
+				<key>Physical Interconnect Location</key>
+				<string>Internal</string>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2021-2023 Goldfish64. All rights reserved.</string>
@@ -56,6 +76,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>OSBundleLibraries</key>
 	<dict>
+		<key>com.apple.iokit.IOACPIFamily</key>
+		<string>1.0</string>
 		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0</string>
 		<key>com.apple.iokit.IOStorageFamily</key>
